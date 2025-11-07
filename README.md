@@ -92,19 +92,4 @@ python -m build
 python -m twine upload dist/*
 ```
 
-## Documentation
-
-- [API Endpoints Documentation](../docs/API_ENDPOINTS.md)
-- [x402 Protocol](https://x402.org)
-- [Full Documentation](https://payless.gitbook.io/payless-documentation)
-
-## License
-
-MIT
-
-## Support
-
-- GitHub Issues: https://github.com/Payless2025/PayLess/issues
-- Documentation: https://payless.gitbook.io/payless-documentation
-- Website: https://payless.com
 
