@@ -1,351 +1,110 @@
-# 💰 Payless
+# Payless SDKs
 
-## Accept Crypto Payments Without Accounts
+Official SDKs for integrating Payless x402 payments into your applications.
 
-The simplest way to monetize your APIs using the x402 protocol on Solana. Zero fees, instant settlements, one line of code.
+## Available SDKs
 
-[![GitHub](https://img.shields.io/badge/GitHub-Payless2025%2FPayLess-blue?logo=github)](https://github.com/Payless2025/PayLess)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Solana](https://img.shields.io/badge/Blockchain-Solana-blueviolet)](https://solana.com)
-[![x402](https://img.shields.io/badge/Protocol-x402-orange)](https://x402.org)
-
-**Contract Address (CA):** `FDgSegoxrdpsct21YVeAbC9dWeTwTxA8Cceeh8BPpump`
-
----
-
-## 🎯 What is Payless?
-
-**Payless** is a serverless payment platform built on the x402 protocol. It lets developers monetize any API with crypto payments in minutes—no accounts, no subscriptions, no complexity.
-
-**🌐 Multi-Chain Support:** Solana, BSC (Binance Smart Chain), Ethereum, with Polygon coming soon!
-
-Perfect for:
-- 🤖 **AI Agent APIs** - Let agents pay for your services autonomously
-- 💰 **Micropayments** - Accept payments as low as $0.01
-- ⚡ **Instant Settlement** - Money in your wallet in 2 seconds
-- 🚀 **Serverless APIs** - Deploy anywhere (Vercel, AWS, Netlify)
-- 🌐 **Multi-Chain** - Users choose their preferred blockchain
-
-## 🌟 Features
-
-- **💰 Zero Protocol Fees** - Keep 100% of your revenue
-- **⚡ Instant Settlement** - Money in your wallet in 2 seconds
-- **🔐 Privacy First** - No accounts, emails, or OAuth required
-- **🌐 Multi-Chain Support** - Solana + BSC + Ethereum (Polygon coming soon!)
-- **🚀 Serverless Ready** - Deploy to Vercel, Netlify, or AWS Lambda
-- **🤖 Perfect for AI Agents** - Autonomous payments without human intervention
-- **📊 Built-in Analytics** - Track payments, revenue, and API usage
-- **🔔 Webhook Support** - Real-time payment notifications
-- **🔐 Token-Gated Content** - Holder-only API access for $PAYLESS holders
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Node.js 18+ installed
-- Wallet addresses for supported chains:
-  - **Solana:** Phantom, Solflare, etc.
-  - **BSC:** MetaMask, Trust Wallet, Binance Wallet
-  - **Ethereum:** MetaMask, Coinbase Wallet, etc.
-- (Optional) x402 facilitator endpoint
-
-### Installation
-
-1. **Clone the repository**
+### Node.js / TypeScript
 ```bash
-git clone https://github.com/Payless2025/PayLess.git
-cd payless
+npm install @payless/sdk
+```
+[Documentation](./nodejs/README.md)
+
+### Python
+```bash
+pip install payless-sdk
+```
+[Documentation](./python/README.md)
+
+## Quick Examples
+
+### Node.js
+
+```typescript
+import { createClient } from '@payless/sdk';
+
+const client = createClient({
+  walletAddress: 'YOUR_WALLET_ADDRESS',
+});
+
+const response = await client.post('/api/ai/chat', {
+  message: 'Hello, world!',
+});
+
+console.log(response.data);
 ```
 
-2. **Install dependencies**
+### Python
+
+```python
+from payless import create_client
+import asyncio
+
+client = create_client({
+    'wallet_address': 'YOUR_WALLET_ADDRESS',
+})
+
+async def main():
+    response = await client.post('/api/ai/chat', {
+        'message': 'Hello, world!',
+    })
+    print(response['data'])
+
+asyncio.run(main())
+```
+
+## Features
+
+All SDKs provide:
+
+- ✅ Automatic x402 payment handling
+- ✅ Payment proof creation and verification
+- ✅ Wallet integration support
+- ✅ Mock payments for testing
+- ✅ Full type safety
+- ✅ Comprehensive error handling
+- ✅ Easy-to-use API
+
+## Installation
+
+Choose your preferred language and follow the installation guide in the respective SDK folder:
+
+- [Node.js/TypeScript SDK](./nodejs/)
+- [Python SDK](./python/)
+
+## Publishing
+
+### Node.js (npm)
+
 ```bash
+cd sdk/nodejs
 npm install
+npm run build
+npm publish
 ```
 
-3. **Configure environment variables**
-```bash
-cp .env.example .env
-```
-
-Edit `.env` and add your Solana wallet address:
-```env
-# Solana wallet address (base58 format)
-WALLET_ADDRESS=YourSolanaWalletAddressHere1111111111111111
-FACILITATOR_URL=https://facilitator.x402.org
-NETWORK=mainnet-beta
-RPC_URL=https://api.mainnet-beta.solana.com
-USDC_MINT=EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v
-
-# Enable demo payments (set to 'true' for playground/testing)
-ENABLE_DEMO_PAYMENTS=true
-```
-
-4. **Run development server**
-```bash
-npm run dev
-```
-
-5. **Open your browser**
-```
-http://localhost:3000
-```
-
-## 📖 Usage
-
-### Adding Payment to Your API Endpoint
-
-It's as simple as wrapping your handler with `withX402Payment`:
-
-```typescript
-import { NextRequest, NextResponse } from 'next/server';
-import { withX402Payment } from '@/lib/x402/middleware';
-
-async function handler(req: NextRequest) {
-  // Your API logic here
-  const result = await yourBusinessLogic(req);
-  return NextResponse.json({ result });
-}
-
-// Add payment requirement - that's it!
-export const POST = withX402Payment(handler, "0.01");
-```
-
-### Configure Endpoint Pricing
-
-Edit `lib/x402/config.ts`:
-
-```typescript
-export const ENDPOINT_PRICING: EndpointConfig = {
-  '/api/ai/chat': '0.05',        // $0.05 per request
-  '/api/ai/image': '0.10',       // $0.10 per request
-  '/api/data/weather': '0.01',   // $0.01 per request
-  '/api/your-endpoint': '0.25',  // Add your custom pricing
-};
-```
-
-### Making Payment Requests (Client-Side)
-
-```typescript
-import { makePaymentRequest } from '@/lib/x402/client';
-
-// The SDK handles payment automatically
-const response = await makePaymentRequest(
-  '/api/ai/chat',
-  {
-    method: 'POST',
-    body: JSON.stringify({ message: 'Hello!' })
-  },
-  walletAddress,      // Your wallet
-  recipientAddress,   // Merchant wallet
-  '0.05'             // Payment amount
-);
-
-const data = await response.json();
-console.log(data);
-```
-
-## 🏗️ Project Structure
-
-```
-payless/
-├── app/
-│   ├── api/                  # API endpoints with x402 payment
-│   │   ├── ai/
-│   │   │   ├── chat/        # AI chat endpoint ($0.05)
-│   │   │   └── image/       # AI image generation ($0.10)
-│   │   ├── data/
-│   │   │   ├── weather/     # Weather data ($0.01)
-│   │   │   └── stock/       # Stock data ($0.02)
-│   │   ├── premium/
-│   │   │   └── content/     # Premium content ($1.00)
-│   │   ├── health/          # Health check (free)
-│   │   └── info/            # API info (free)
-│   ├── playground/          # Interactive API playground
-│   ├── globals.css          # Global styles
-│   ├── layout.tsx           # Root layout
-│   └── page.tsx             # Landing page
-├── components/              # React components
-│   ├── Hero.tsx            # Hero section
-│   ├── Features.tsx        # Features grid
-│   ├── CodeExample.tsx     # Code examples
-│   ├── UseCases.tsx        # Use case cards
-│   └── Footer.tsx          # Footer
-├── lib/
-│   └── x402/               # x402 protocol implementation
-│       ├── types.ts        # TypeScript types
-│       ├── config.ts       # Configuration
-│       ├── middleware.ts   # Payment middleware
-│       └── client.ts       # Client utilities
-├── package.json
-├── tsconfig.json
-├── tailwind.config.js
-└── next.config.js
-```
-
-## 🔧 API Endpoints
-
-### Free Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/health` | GET | Health check |
-| `/api/info` | GET | API information and pricing |
-
-### Paid Endpoints
-
-| Endpoint | Method | Price | Description |
-|----------|--------|-------|-------------|
-| `/api/ai/chat` | POST | $0.05 | AI chat completion |
-| `/api/ai/image` | POST | $0.10 | AI image generation |
-| `/api/data/weather` | GET | $0.01 | Weather data |
-| `/api/data/stock` | GET | $0.02 | Stock market data |
-| `/api/premium/content` | GET | $1.00 | Premium content access |
-
-## 🎮 Try the Playground
-
-Visit `/playground` to test all endpoints interactively:
+### Python (PyPI)
 
 ```bash
-npm run dev
-# Open http://localhost:3000/playground
+cd sdk/python
+pip install build twine
+python -m build
+python -m twine upload dist/*
 ```
 
-The playground allows you to:
-- Test all API endpoints
-- See payment flow in action (demo mode)
-- Inspect request/response payloads
-- Understand x402 protocol behavior
+## Documentation
 
-## 🚢 Deployment
+- [API Endpoints Documentation](../docs/API_ENDPOINTS.md)
+- [x402 Protocol](https://x402.org)
+- [Full Documentation](https://payless.gitbook.io/payless-documentation)
 
-### Deploy to Vercel (Recommended)
+## License
 
-1. **Push to GitHub**
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/yourusername/payless.git
-git push -u origin main
-```
+MIT
 
-2. **Deploy to Vercel**
-```bash
-npm install -g vercel
-vercel
-```
+## Support
 
-3. **Set environment variables in Vercel Dashboard**
-   - `WALLET_ADDRESS` - Your Solana wallet address
-   - `FACILITATOR_URL` - Facilitator endpoint
-   - `NETWORK` - Solana network (mainnet-beta, devnet)
-   - `RPC_URL` - Solana RPC endpoint
-   - `USDC_MINT` - USDC SPL token mint address
-
-### Deploy to Netlify
-
-```bash
-npm install -g netlify-cli
-netlify deploy --prod
-```
-
-### Deploy to AWS Lambda
-
-Use [Serverless Framework](https://www.serverless.com/) or [AWS SAM](https://aws.amazon.com/serverless/sam/).
-
-## 🔐 Security Considerations
-
-### Production Checklist
-
-- [ ] Enable real facilitator verification (not demo mode)
-- [ ] Set up proper RPC endpoints for your network
-- [ ] Implement rate limiting
-- [ ] Add request validation
-- [ ] Set up monitoring and logging
-- [ ] Use HTTPS only
-- [ ] Implement webhook verification for payment confirmations
-- [ ] Add CORS restrictions
-- [ ] Enable API key authentication for sensitive endpoints (optional)
-
-### Environment Variables
-
-Never commit these to version control:
-- `WALLET_ADDRESS` - Keep private
-- `RPC_URL` - Use secure providers
-- Private keys should NEVER be in your code
-
-## 📚 Learn More
-
-### Documentation
-
-- [Ethereum Support](./docs/ETHEREUM_SUPPORT.md) - How to accept Ethereum payments
-- [Webhooks](./docs/WEBHOOKS.md) - Real-time payment notifications
-- [Multi-Chain Guide](./docs/MULTI_CHAIN.md) - Complete multi-chain integration
-- [API Configuration](./docs/API_CONFIGURATION.md) - Configure your API
-
-### x402 Protocol
-
-- [x402 Website](https://www.x402.org/)
-- [x402 Documentation](https://x402.gitbook.io/x402)
-- [x402 GitHub](https://github.com/coinbase/x402)
-
-### Next.js
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [API Routes](https://nextjs.org/docs/api-routes/introduction)
-- [Deployment](https://nextjs.org/docs/deployment)
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 💬 Support
-
-- GitHub Issues: [Report a bug](https://github.com/yourusername/payless/issues)
-- Documentation: [Read the docs](https://github.com/yourusername/payless/wiki)
-- Community: [Join Discord](https://discord.gg/x402)
-
-## 🙏 Acknowledgments
-
-- Built with [x402 Protocol](https://www.x402.org/)
-- Powered by [Next.js](https://nextjs.org/)
-- Styled with [Tailwind CSS](https://tailwindcss.com/)
-- Icons by [Lucide](https://lucide.dev/)
-
----
-
-## 💪 Why Developers Choose Payless
-
-| Feature | What You Get |
-|---------|--------------|
-| **⚡ Lightning Setup** | One line of code, < 5 minutes to production |
-| **💯 Keep 100%** | Zero protocol fees. Every dollar is yours |
-| **🚀 True Serverless** | Deploy anywhere - Vercel, AWS, Netlify |
-| **🔓 Fully Open Source** | MIT license. Fork, modify, own it |
-| **🎯 Any Use Case** | Monetize any API or service, no restrictions |
-| **🛝 Built-in Playground** | Test all endpoints without writing code |
-| **🔐 Privacy First** | No accounts, emails, or OAuth required |
-| **🤖 AI Agent Ready** | Perfect for autonomous payments |
-| **💵 True Micropayments** | Accept payments as low as $0.01 USDC |
-| **⚡ Instant Settlement** | Money in your wallet in 2 seconds |
-
-The simplest, most developer-friendly way to monetize APIs with crypto. Zero fees, zero complexity, zero compromises.
-
----
-
-**Built with ❤️ by the Payless Team**
-
-🌟 **[GitHub](https://github.com/Payless2025/PayLess)** | 🐦 **[X/Twitter](https://x.com/paylessnetwork)** | 📚 **[Documentation](https://payless.gitbook.io/payless-documentation)**
-
-⭐ Star this repo if you find it useful!
+- GitHub Issues: https://github.com/Payless2025/PayLess/issues
+- Documentation: https://payless.gitbook.io/payless-documentation
+- Website: https://payless.com
 
