@@ -263,13 +263,3 @@ response: ApiResponse = await client.post('/api/ai/chat', {
 
 MIT
 
-## Links
-
-- [Documentation](https://payless.gitbook.io/payless-documentation)
-- [GitHub](https://github.com/Payless2025/PayLess)
-- [Website](https://payless.com)
-
-## Support
-
-For issues and questions, please visit our [GitHub Issues](https://github.com/Payless2025/PayLess/issues).
-
