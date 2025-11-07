@@ -238,14 +238,3 @@ const response: ApiResponse<{ message: string }> = await client.post('/api/ai/ch
 ## License
 
 MIT
-
-## Links
-
-- [Documentation](https://payless.gitbook.io/payless-documentation)
-- [GitHub](https://github.com/Payless2025/PayLess)
-- [Website](https://payless.com)
-
-## Support
-
-For issues and questions, please visit our [GitHub Issues](https://github.com/Payless2025/PayLess/issues).
-
