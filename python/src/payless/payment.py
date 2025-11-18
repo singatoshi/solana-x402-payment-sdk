@@ -1,5 +1,5 @@
 """
-Payment proof creation and verification for x402 protocol
+Payment proof creation and verification for x402
 """
 
 import time
