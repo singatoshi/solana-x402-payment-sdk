@@ -12,7 +12,7 @@ const client = createClient({
 
 // Example 1: Handle 402 Payment Required
 async function handlePaymentRequired() {
-  console.log('Example 1: Handle 402 Payment Required');
+  console.log('Handle 402 Payment Required');
   
   const response = await client.get('http://localhost:3000/api/premium/content');
   
