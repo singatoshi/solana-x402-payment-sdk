@@ -47,7 +47,7 @@ async function handleNetworkError() {
 
 // Example 4: Handle Validation Errors
 async function handleValidationError() {
-  console.log('\nExample 4: Handle Validation Errors');
+  console.log('Handle Validation Errors');
   
   const response = await client.post('http://localhost:3000/api/ai/chat', {
     // Missing required fields
