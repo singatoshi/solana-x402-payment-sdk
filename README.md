@@ -1,6 +1,6 @@
 # Payless SDKs
 
-Official SDKs for integrating Payless x402 payments into your applications.
+Official SDKs for integrating Payless x402 payments into your applications on solana network.
 
 ## Available SDKs
 
