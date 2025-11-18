@@ -4,7 +4,7 @@
 
 const { createClient } = require('../src/index');
 
-// Initialize the Payless client
+// Initialize
 const client = createClient({
   walletAddress: 'YOUR_RECIPIENT_WALLET_ADDRESS', // Your Solana wallet address
   network: 'mainnet-beta',
