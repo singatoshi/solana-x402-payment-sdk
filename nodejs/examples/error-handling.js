@@ -35,7 +35,7 @@ async function handleInvalidEndpoint() {
 
 // Example 3: Handle Network Errors
 async function handleNetworkError() {
-  console.log('\nExample 3: Handle Network Errors');
+  console.log('Handle Network Errors');
   
   const response = await client.get('http://invalid-domain-that-does-not-exist.com/api/test');
   
