@@ -61,7 +61,7 @@ async function handleValidationError() {
 
 // Example 5: Proper Error Handling Pattern
 async function properErrorHandling() {
-  console.log('\nExample 5: Proper Error Handling Pattern');
+  console.log('Proper Error Handling Pattern');
   
   try {
     const response = await client.get('http://localhost:3000/api/data/weather');
