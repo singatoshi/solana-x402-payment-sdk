@@ -10,7 +10,7 @@ const client = createClient({
   network: 'mainnet-beta',
 });
 
-// Example 1: Handle 402 Payment Required
+// Handle 402 Payment Required
 async function handlePaymentRequired() {
   console.log('Handle 402 Payment Required');
   
