@@ -24,7 +24,7 @@ async function handlePaymentRequired() {
 
 // Example 2: Handle Invalid Endpoint
 async function handleInvalidEndpoint() {
-  console.log('\nExample 2: Handle Invalid Endpoint');
+  console.log('Handle Invalid Endpoint');
   
   const response = await client.get('http://localhost:3000/api/nonexistent');
   
