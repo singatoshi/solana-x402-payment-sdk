@@ -10,7 +10,7 @@ const client = createClient({
   network: 'mainnet-beta',
 });
 
-// Example 1: Make a simple GET request to a free endpoint
+// Example 1: Make a simple GET request to a endpoint
 async function getFreeEndpoint() {
   console.log('Example 1: Free endpoint');
   
